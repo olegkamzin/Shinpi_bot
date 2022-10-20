@@ -8,8 +8,8 @@ const token = process.env.TOKEN
 const bot = new TelegramBot(token, { polling: true })
 const quantityButton = {
 	inline_keyboard: [
-		[{ text: '1', callback_data: 'resolve_1' }, { text: '2', callback_data: 'resolve_2' }, { text: '3', callback_data: 'resolve_3' }],
-		[{ text: '4', callback_data: 'resolve_4' }, { text: '5', callback_data: 'resolve_5' }, { text: '6', callback_data: 'resolve_6' }]
+		[{ text: '1', callback_data: 'resolve_1' }, { text: '2', callback_data: 'resolve_2' }, { text: '3', callback_data: 'resolve_3' }, { text: '4', callback_data: 'resolve_4' }],
+		[{ text: '❌', callback_data: 'close' }]
 	]
 }
 let productID = ''
@@ -52,7 +52,7 @@ bot.on('callback_query', async msg => {
 			params: { id: productID, quantity: 1 },
 			headers: { token: 'zXHSPq96upy9bS2JoIDAbrGJwyoygSXZYSqcVERd' }
 		}).then(async res => {
-			await bot.sendMessage(chatId, `✅ Успешно! Номер резерва: ${res.data.orders[0]}\r\n\r\n${productInfo} - 1 шт.`, { parse_mode: 'markdown' }).then(() => {
+			await bot.sendMessage(chatId, `✅ Успешно! Номер резерва: \`\`${res.data.orders[0]}\`\`\r\n\r\n${productInfo} - 1 шт.`, { parse_mode: 'markdown' }).then(() => {
 				productID = ''
 				productInfo = ''
 			}).catch(() => null)
@@ -67,7 +67,7 @@ bot.on('callback_query', async msg => {
 			params: { id: productID, quantity: 2 },
 			headers: { token: 'zXHSPq96upy9bS2JoIDAbrGJwyoygSXZYSqcVERd' }
 		}).then(async res => {
-			await bot.sendMessage(chatId, `✅ Успешно! Номер резерва: ${res.data.orders[0]}\r\n\r\n${productInfo} - 2 шт.`, { parse_mode: 'markdown' }).then(() => {
+			await bot.sendMessage(chatId, `✅ Успешно! Номер резерва: \`${res.data.orders[0]}\`\r\n\r\n${productInfo} - 2 шт.`, { parse_mode: 'markdown' }).then(() => {
 				productID = ''
 				productInfo = ''
 			}).catch(() => null)
@@ -82,7 +82,7 @@ bot.on('callback_query', async msg => {
 			params: { id: productID, quantity: 3 },
 			headers: { token: 'zXHSPq96upy9bS2JoIDAbrGJwyoygSXZYSqcVERd' }
 		}).then(async res => {
-			await bot.sendMessage(chatId, `✅ Успешно! Номер резерва: ${res.data.orders[0]}\r\n\r\n${productInfo} - 3 шт.`, { parse_mode: 'markdown' }).then(() => {
+			await bot.sendMessage(chatId, `✅ Успешно! Номер резерва: \`${res.data.orders[0]}\`\r\n\r\n${productInfo} - 3 шт.`, { parse_mode: 'markdown' }).then(() => {
 				productID = ''
 				productInfo = ''
 			}).catch(() => null)
@@ -97,7 +97,7 @@ bot.on('callback_query', async msg => {
 			params: { id: productID, quantity: 4 },
 			headers: { token: 'zXHSPq96upy9bS2JoIDAbrGJwyoygSXZYSqcVERd' }
 		}).then(async res => {
-			await bot.sendMessage(chatId, `✅ Успешно! Номер резерва: ${res.data.orders[0]}\r\n\r\n${productInfo} - 4 шт.`, { parse_mode: 'markdown' }).then(() => {
+			await bot.sendMessage(chatId, `✅ Успешно! Номер резерва: \`${res.data.orders[0]}\`\r\n\r\n${productInfo} - 4 шт.`, { parse_mode: 'markdown' }).then(() => {
 				productID = ''
 				productInfo = ''
 			}).catch(() => null)
@@ -107,33 +107,7 @@ bot.on('callback_query', async msg => {
 		})
 	}
 
-	if (text.includes('resolve_5')) {
-		return await axios.post('https://api.shinpi.ru/kolobox/orders/', null, {
-			params: { id: productID, quantity: 5 },
-			headers: { token: 'zXHSPq96upy9bS2JoIDAbrGJwyoygSXZYSqcVERd' }
-		}).then(async res => {
-			await bot.sendMessage(chatId, `✅ Успешно! Номер резерва: ${res.data.orders[0]}\r\n\r\n${productInfo} - 5 шт.`, { parse_mode: 'markdown' }).then(() => {
-				productID = ''
-				productInfo = ''
-			}).catch(() => null)
-			return await bot.deleteMessage(chatId, productMessageID).then(() => productMessageID = '').catch(() => null)
-		}).catch(async error => {
-			return await bot.sendMessage(chatId, 'Что то пошло не так.')
-		})
-	}
-
-	if (text.includes('resolve_6')) {
-		return await axios.post('https://api.shinpi.ru/kolobox/orders/', null, {
-			params: { id: productID, quantity: 6 },
-			headers: { token: 'zXHSPq96upy9bS2JoIDAbrGJwyoygSXZYSqcVERd' }
-		}).then(async res => {
-			await bot.sendMessage(chatId, `✅ Успешно! Номер резерва: ${res.data.orders[0]}\r\n\r\n${productInfo} - 6 шт.`, { parse_mode: 'markdown' }).then(() => {
-				productID = ''
-				productInfo = ''
-			}).catch(() => null)
-			return await bot.deleteMessage(chatId, productMessageID).then(() => productMessageID = '').catch(() => null)
-		}).catch(async error => {
-			return await bot.sendMessage(chatId, 'Что то пошло не так.')
-		})
+	if (text.includes('close')) {
+		return await bot.deleteMessage(chatId, productMessageID).then(() => productMessageID = '').catch(() => null)
 	}
 })
