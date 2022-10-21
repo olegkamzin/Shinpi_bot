@@ -71,6 +71,10 @@ bot.on('callback_query', async msg => {
 			params: { id: productID, quantity: 2 },
 			headers: { token: 'zXHSPq96upy9bS2JoIDAbrGJwyoygSXZYSqcVERd' }
 		}).then(async res => {
+			if (res.data.errors[0] !== undefined) {
+				await bot.sendMessage(chatId, res.data.errors[0])
+				return await bot.deleteMessage(chatId, productMessageID).then(() => productMessageID = '').catch(() => null)
+			}
 			await bot.sendMessage(chatId, `✅ Успешно! Номер резерва: \`${res.data.orders[0]}\`\r\n\r\n${productInfo} - 2 шт.`, { parse_mode: 'markdown' }).then(() => {
 				productID = ''
 				productInfo = ''
@@ -86,6 +90,10 @@ bot.on('callback_query', async msg => {
 			params: { id: productID, quantity: 3 },
 			headers: { token: 'zXHSPq96upy9bS2JoIDAbrGJwyoygSXZYSqcVERd' }
 		}).then(async res => {
+			if (res.data.errors[0] !== undefined) {
+				await bot.sendMessage(chatId, res.data.errors[0])
+				return await bot.deleteMessage(chatId, productMessageID).then(() => productMessageID = '').catch(() => null)
+			}
 			await bot.sendMessage(chatId, `✅ Успешно! Номер резерва: \`${res.data.orders[0]}\`\r\n\r\n${productInfo} - 3 шт.`, { parse_mode: 'markdown' }).then(() => {
 				productID = ''
 				productInfo = ''
@@ -101,6 +109,10 @@ bot.on('callback_query', async msg => {
 			params: { id: productID, quantity: 4 },
 			headers: { token: 'zXHSPq96upy9bS2JoIDAbrGJwyoygSXZYSqcVERd' }
 		}).then(async res => {
+			if (res.data.errors[0] !== undefined) {
+				await bot.sendMessage(chatId, res.data.errors[0])
+				return await bot.deleteMessage(chatId, productMessageID).then(() => productMessageID = '').catch(() => null)
+			}
 			await bot.sendMessage(chatId, `✅ Успешно! Номер резерва: \`${res.data.orders[0]}\`\r\n\r\n${productInfo} - 4 шт.`, { parse_mode: 'markdown' }).then(() => {
 				productID = ''
 				productInfo = ''
