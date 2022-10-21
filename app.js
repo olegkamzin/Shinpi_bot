@@ -52,6 +52,10 @@ bot.on('callback_query', async msg => {
 			params: { id: productID, quantity: 1 },
 			headers: { token: 'zXHSPq96upy9bS2JoIDAbrGJwyoygSXZYSqcVERd' }
 		}).then(async res => {
+			if (res.data.errors[0] !== undefined) {
+				await bot.sendMessage(chatId, res.data.errors[0])
+				return await bot.deleteMessage(chatId, productMessageID).then(() => productMessageID = '').catch(() => null)
+			}
 			await bot.sendMessage(chatId, `✅ Успешно! Номер резерва: \`\`${res.data.orders[0]}\`\`\r\n\r\n${productInfo} - 1 шт.`, { parse_mode: 'markdown' }).then(() => {
 				productID = ''
 				productInfo = ''
