@@ -14,6 +14,7 @@ const quantityButton = {
 }
 let productID = ''
 let productInfo = ''
+let productPrice = ''
 const chatID = new Map()
 
 bot.setMyCommands([
@@ -34,6 +35,7 @@ bot.on('message', async (msg) => {
 			headers: { token: 'zXHSPq96upy9bS2JoIDAbrGJwyoygSXZYSqcVERd' }
 		}).then(async res => {
 			productID = text
+			productPrice = Number(res.data.price)
 			productInfo = `Артикул: <code>${res.data.articul}</code>\r\n<b>${res.data.mark} ${res.data.model} ${res.data.tread_width}/${res.data.profile_height} R${res.data.diameter} ${res.data.load_index}${res.data.speed_index}</b>\r\n`
 			// await bot.sendPhoto(chatId, res.data.image_url)
 			await bot.sendMessage(chatId, `<b>${res.data.mark} ${res.data.model} ${res.data.tread_width}/${res.data.profile_height} R${res.data.diameter} ${res.data.load_index}${res.data.speed_index}</b>\r\n------\r\nкол-во: ${res.data.count_local} | артикул: <code>${res.data.articul}</code>\r\n\r\nСколько зарезервировать?`, { parse_mode: 'HTML', reply_markup: JSON.stringify(quantityButton) })
@@ -59,7 +61,7 @@ bot.on('callback_query', async msg => {
 				await bot.sendMessage(chatId, res.data.errors[0])
 				return await bot.deleteMessage(chatId, chatID.get(chatId)).then(() => chatID.delete(chatId)).catch(() => null)
 			}
-			await bot.sendMessage(chatId, `✅ Успешно! Номер резерва: <code>${res.data.orders[0]}</code>\r\n\r\n${productInfo} - 1 шт.`, { parse_mode: 'HTML' }).then(() => {
+			await bot.sendMessage(chatId, `✅ Успешно! Номер резерва: <code>${res.data.orders[0]}</code>\r\nЦена - ${productPrice}\r\n${productInfo} - 1 шт.`, { parse_mode: 'HTML' }).then(() => {
 				productID = ''
 				productInfo = ''
 			}).catch(() => null)
@@ -78,7 +80,7 @@ bot.on('callback_query', async msg => {
 				await bot.sendMessage(chatId, res.data.errors[0])
 				return await bot.deleteMessage(chatId, chatID.get(chatId)).then(() => chatID.delete(chatId)).catch(() => null)
 			}
-			await bot.sendMessage(chatId, `✅ Успешно! Номер резерва: <code>${res.data.orders[0]}</code>\r\n\r\n${productInfo} - 2 шт.`, { parse_mode: 'HTML' }).then(() => {
+			await bot.sendMessage(chatId, `✅ Успешно! Номер резерва: <code>${res.data.orders[0]}</code>\r\nЦена - ${productPrice * 2}\r\n${productInfo} - 2 шт.`, { parse_mode: 'HTML' }).then(() => {
 				productID = ''
 				productInfo = ''
 			}).catch(() => null)
@@ -97,7 +99,7 @@ bot.on('callback_query', async msg => {
 				await bot.sendMessage(chatId, res.data.errors[0])
 				return await bot.deleteMessage(chatId, chatID.get(chatId)).then(() => chatID.delete(chatId)).catch(() => null)
 			}
-			await bot.sendMessage(chatId, `✅ Успешно! Номер резерва: <code>${res.data.orders[0]}</code>\r\n\r\n${productInfo} - 3 шт.`, { parse_mode: 'HTML' }).then(() => {
+			await bot.sendMessage(chatId, `✅ Успешно! Номер резерва: <code>${res.data.orders[0]}</code>\r\nЦена - ${productPrice * 3}\r\n${productInfo} - 3 шт.`, { parse_mode: 'HTML' }).then(() => {
 				productID = ''
 				productInfo = ''
 			}).catch(() => null)
@@ -116,7 +118,7 @@ bot.on('callback_query', async msg => {
 				await bot.sendMessage(chatId, res.data.errors[0])
 				return await bot.deleteMessage(chatId, chatID.get(chatId)).then(() => chatID.delete(chatId)).catch(() => null)
 			}
-			await bot.sendMessage(chatId, `✅ Успешно! Номер резерва: <code>${res.data.orders[0]}</code>\r\n\r\n${productInfo} - 4 шт.`, { parse_mode: 'HTML' }).then(() => {
+			await bot.sendMessage(chatId, `✅ Успешно! Номер резерва: <code>${res.data.orders[0]}</code>\r\nЦена - ${productPrice * 4}\r\n${productInfo} - 4 шт.`, { parse_mode: 'HTML' }).then(() => {
 				productID = ''
 				productInfo = ''
 			}).catch(() => null)
